@@ -1,0 +1,16 @@
+Custom User Model:
+
+The User model uses an email as the primary identifier instead of a username.
+It includes basic fields like email, first_name, last_name, is_staff, and is_active.
+UserManager provides methods for creating regular users and superusers.
+Serializers:
+
+UserSerializer: Used for user registration. It writes the password securely.
+LoginSerializer: Handles email and password input for login.
+Views:
+
+RegisterView: Handles user registration.
+LoginView: Authenticates users and generates JWT tokens.
+URLs:
+
+You've configured endpoints for registration and login under /api/auth/.
