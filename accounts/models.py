@@ -15,14 +15,6 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class Role(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    description = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -54,12 +46,16 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
+    ROLE_CHOICES = [
+        ('Admin', 'Admin'),
+        ('Staff', 'Staff'),
+    ]
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
-    role = models.ForeignKey(Role,
-                             on_delete=models.SET_NULL, null=True, blank=True)
+    role = models.ForeignKey(max_length=100,
+                             choices=ROLE_CHOICES, default='Staff')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
